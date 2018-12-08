@@ -76,9 +76,9 @@ class Field(MountedType):
         """
         return [permission() for permission in self.permission_classes]
 
-    def check_permissions(self, info):
+    def check_permissions(self, root, info, *args, **kwargs):
         for permission in self.get_permissions():
-            if not permission.has_permission(info, self):
+            if not permission.has_permission(root, info, self, *args, **kwargs):
                 self.permission_denied(
                     info, message=getattr(permission, 'message', None)
                 )
@@ -97,9 +97,7 @@ class Field(MountedType):
             return None
 
         def resolver(root, info, *args, **kwargs):
-
-            # TODO: pass root?
-            self.check_permissions(info)
+            self.check_permissions(root, info, *args, **kwargs)
 
             return _resolver(root, info, *args, **kwargs)
 

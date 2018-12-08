@@ -19,11 +19,11 @@ class MyInstance(object):
 
 
 class AlwaysFalsePermission(object):
-    def has_permission(self, info, field):
+    def has_permission(self, root, info, field, *args, **kwargs):
         return False
 
 class AlwaysTruePermission(object):
-    def has_permission(self, info, field):
+    def has_permission(self, root, info, field, *args, **kwargs):
         return True
 
 
